@@ -1,0 +1,29 @@
+"""
+Represents all available queries
+"""
+type Query {
+  messages: [Message!]
+}
+
+"""
+Represents all available mutations
+"""
+type Mutation {
+  addMessage(text: String!): Message
+}
+
+"""
+Represents all available subscriptions
+"""
+type Subscription {
+  messageAdded: Message
+}
+
+"""
+Represents Message fields
+"""
+type Message {
+  id: ID!
+  user: String!
+  text: String!
+}
