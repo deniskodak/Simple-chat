@@ -17,3 +17,7 @@ export async function createMessage(user, text) {
   await getMessageTable().insert(message);
   return message;
 }
+
+export async function cleanupMessages() {
+  await connection.table('message').truncate();
+}
