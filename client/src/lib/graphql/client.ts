@@ -27,7 +27,7 @@ const httpLink = concat(authLink, createHttpLink({ uri: 'https://chat-graphql-0b
  * Web socket link with token
  */
 const wsLink = new GraphQLWsLink(createWsClient({
-  url: 'ws://chat-graphql-0b20.onrender.com/graphql',
+  url: 'wss://chat-graphql-0b20.onrender.com/graphql',
   connectionParams: () => ({ accessToken: getAccessToken() })
 }))
 
