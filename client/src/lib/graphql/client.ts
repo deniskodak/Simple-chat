@@ -21,13 +21,13 @@ const authLink = new ApolloLink((operation, forward) => {
 /**
  * Combined auth and http link, order is important
  */
-const httpLink = concat(authLink, createHttpLink({ uri: 'http://localhost:9000/graphql' }));
+const httpLink = concat(authLink, createHttpLink({ uri: 'https://chat-graphql-0b20.onrender.com/graphql' }));
 
 /**
  * Web socket link with token
  */
 const wsLink = new GraphQLWsLink(createWsClient({
-  url: 'ws://localhost:9000/graphql',
+  url: 'ws://chat-graphql-0b20.onrender.com/graphql',
   connectionParams: () => ({ accessToken: getAccessToken() })
 }))
 

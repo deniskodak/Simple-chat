@@ -3,10 +3,13 @@
   "private": true,
   "license": "MIT",
   "main": "src/index.tsx",
+  "homepage": "https://deniskodak.github.io/Simple-chat/",
   "scripts": {
     "start": "concurrently \"-scripts start\" \"graphql-codegen --config codegen.json\"",
     "build": "react-scripts build",
-    "generate-types": "graphql-codegen --config codegen.json"
+    "generate-types": "graphql-codegen --config codegen.json",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
@@ -30,6 +33,7 @@
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/client-preset": "4.1.0",
     "concurrently": "^8.2.2",
+    "gh-pages": "^6.1.0",
     "react-scripts": "5.0.1"
   },
   "browserslist": {

@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import { JWTClaims } from './types';
 
 const ACCESS_TOKEN_KEY = 'accessToken';
-const API_URL = 'http://localhost:9000';
+const API_URL = 'https://chat-graphql-0b20.onrender.com/';
 
 export function getAccessToken(): string {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
