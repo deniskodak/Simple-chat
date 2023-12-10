@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import { JWTClaims } from './types';
 import { User } from '../generated/graphql';
 
-const ACCESS_TOKEN_KEY = 'accessToken';
+const ACCESS_TOKEN_KEY = 'accessTokenGraphqlChat';
 const API_URL = 'https://chat-graphql-0b20.onrender.com';
 
 export function getAccessToken(): string {
