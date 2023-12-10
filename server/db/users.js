@@ -8,8 +8,9 @@ export async function getUser(username) {
 }
 
 export async function addUser(username, password) {
-  await getUserTable().insert({ username, password, id: generateId() })
-  return { username, password }
+  const id = generateId();
+  await getUserTable().insert({ username, password, id })
+  return { username, password, id }
 }
 
 export async function getUsers() {

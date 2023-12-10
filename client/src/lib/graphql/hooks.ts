@@ -16,7 +16,6 @@ export function useAddMessage() {
 }
 
 export function useMessages(chatId: string) {
-  console.log(chatId, 'chatId')
   const { data } = useQuery(messagesQuery, { variables: { chatId }, fetchPolicy: 'network-only' });
   // establish connection with ws stream
   useSubscription(messageAddedSubscription, { variables: { chatId }, onData: ({ client, data: result }) => {
