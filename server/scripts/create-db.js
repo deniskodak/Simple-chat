@@ -20,18 +20,8 @@ await connection.schema.createTable('message', (table) => {
 
 await connection.table('user').insert([
   {
-    username: 'alice',
-    password: 'alice123',
-    id: generateId()
-  },
-  {
-    username: 'bob',
-    password: 'bob123',
-    id: generateId()
-  },
-  {
-    username: 'charlie',
-    password: 'charlie123',
+    username: 'Bot',
+    password: 'bot12345',
     id: generateId()
   },
 ]);
