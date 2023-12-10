@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { MessageListProps, MessageRowProps } from '../lib/types';
 
-function MessageList({ user, messages }: MessageListProps) {
+function MessageList({ user, messages, receiver }: MessageListProps) {
   const containerRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function MessageList({ user, messages }: MessageListProps) {
       <table>
         <tbody>
           {messages.map((message) => (
-            <MessageRow key={message.id} user={user} message={message} />
+            <MessageRow receiver={receiver} key={message.id} user={user} message={message} />
           ))}
         </tbody>
       </table>
@@ -25,12 +25,17 @@ function MessageList({ user, messages }: MessageListProps) {
   );
 }
 
-function MessageRow({ user, message }: MessageRowProps) {
+function MessageRow({ user, message, receiver }: MessageRowProps) {
+
+  const getMessageAuthorName = () => {
+    return message.userId === user.id ? user.username : receiver.username
+  }
+
   return (
     <tr>
       <td className="py-1">
-        <span className={(message.user === user) ? 'tag is-primary' : 'tag'}>
-          {message.user}
+        <span className={(message.userId === user.id) ? 'username tag is-primary' : 'username tag'}>
+          {getMessageAuthorName()}
         </span>
       </td>
       <td className="pl-4 py-1">

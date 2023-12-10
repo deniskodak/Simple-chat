@@ -5,9 +5,10 @@ import Chat from './components/Chat';
 import LoginForm from './components/LoginForm';
 import NavBar from './components/NavBar';
 import { apolloClient } from './lib/graphql/client';
+import { User } from './generated/graphql';
 
 function App() {
-  const [user, setUser] = useState<string | null>(getUser);
+  const [user, setUser] = useState<User | null>(getUser);
 
   const handleLogout = (): void => {
     logout();

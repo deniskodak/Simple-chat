@@ -22,8 +22,7 @@ export async function handleLogin(req, res) {
   if (!user || user.password !== password) {
     res.sendStatus(401);
   } else {
-    const claims = { sub: username };
-    const token = jwt.sign(claims, secret);
+    const token = jwt.sign({ sub: username, id: user.id }, secret);
     res.json({ token });  
   }
 }
@@ -32,7 +31,7 @@ export async function handleSignup(req, res) {
   const { username, password } = req.body;
   const user = await getUser(username);
   if(user) return res.status(409).send('User existed')
-  await addUser(username, password);
-  const token = jwt.sign({ sub: username }, secret);
+  const newUser = await addUser(username, password);
+  const token = jwt.sign({ sub: username, id: newUser.id }, secret);
   res.json({ token });
 }

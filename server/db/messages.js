@@ -3,14 +3,21 @@ import { generateId } from './ids.js';
 
 const getMessageTable = () => connection.table('message');
 
-export async function getMessages() {
-  return await getMessageTable().select().orderBy('createdAt', 'asc');
+export async function getMessages(chatId) {
+  const reversedChatId = chatId.split('-').reverse().join('-');
+
+  return await getMessageTable()
+    .select()
+    .where({ chatId })
+    .orWhere({ chatId: reversedChatId })
+    .orderBy('createdAt', 'asc');
 }
 
-export async function createMessage(user, text) {
+export async function createMessage(userId, text, chatId) {
   const message = {
     id: generateId(),
-    user,
+    userId,
+    chatId,
     text,
     createdAt: new Date().toISOString(),
   };

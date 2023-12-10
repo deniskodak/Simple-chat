@@ -5,7 +5,7 @@
   "main": "src/index.tsx",
   "homepage": "https://deniskodak.github.io/Simple-chat/",
   "scripts": {
-    "start": "concurrently \"-scripts start\" \"graphql-codegen --config codegen.json\"",
+    "start": "concurrently \"react-scripts start\" \"graphql-codegen --config codegen.json\"",
     "build": "react-scripts build",
     "generate-types": "graphql-codegen --config codegen.json",
     "predeploy": "npm run build",

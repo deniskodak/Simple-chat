@@ -1,6 +1,8 @@
 import { GraphQLError } from 'graphql';
 import { createMessage, getMessages } from './db/messages.js';
 import { PubSub } from 'graphql-subscriptions';
+import { getUsers } from './db/users.js';
+import { withFilter } from 'graphql-subscriptions';
 
 /**
  * Publish/Subscribe instance for websocket
@@ -19,16 +21,20 @@ const websocketTriggers = {
  */
 export const resolvers = {
   Query: {
-    messages: (_root, _args, { user }) => {
-      if (!user) throw unauthorizedError();
-      return getMessages();
+    messages: (_root, { chatId }, { userId }) => {
+      if (!userId) throw unauthorizedError();
+      return getMessages(chatId);
     },
+    users: (_root, _args, { userId }) => {
+      if(!userId) throw unauthorizedError();
+      return getUsers();
+    }
   },
 
   Mutation: {
-    addMessage: async (_root, { text }, { user }) => {
-      if (!user) throw unauthorizedError();
-      const message = await createMessage(user, text);
+    addMessage: async (_root, { text, chatId }, { userId }) => {
+      if (!userId) throw unauthorizedError();
+      const message = await createMessage(userId, text, chatId);
       // add message to websocket stream
       pubSub.publish(websocketTriggers.messageAdded, { messageAdded: message })
       return message
@@ -39,10 +45,17 @@ export const resolvers = {
     messageAdded: {
         // establish stream with specific trigger name, but the stream is empty by default
         // _root is parent object, args is subscription argument and context is passed ourself
-        subscribe: (_root, _args, context) => { 
-          if(!context.user) throw unauthorizedError()
-          return pubSub.asyncIterator(websocketTriggers.messageAdded) }
-      } 
+        subscribe: withFilter((_root, _args, context) => { 
+          if(!context.userId) throw unauthorizedError()
+          return pubSub.asyncIterator(websocketTriggers.messageAdded) 
+        }, 
+        ({ messageAdded }, { chatId }) => {
+          const reversedChatId = chatId.split('-').reverse().join('-');
+          const { chatId: msgChatId } = messageAdded || {};
+          return msgChatId === chatId || msgChatId === reversedChatId
+        }
+      )
+    }
   }
 };
 

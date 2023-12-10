@@ -3,6 +3,8 @@ import { MessageInputProps } from "../lib/types";
 function MessageInput({ onSend }: MessageInputProps) {
 
   const handleKeyDown = (event): void => {
+    if(!event.target.value.trim()) return 
+    
     if (event.key === 'Enter') {
       onSend(event.target.value);
       event.target.value = '';

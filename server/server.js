@@ -23,7 +23,7 @@ app.post('/signup', handleSignup);
 // Executes on each request and define if req has valid token
 function getHttpContext({ req }) {
   if (req.auth) {
-    return { user: req.auth.sub };
+    return { userId: req.auth.id };
   }
   return {};
 }
@@ -34,7 +34,7 @@ function getWsContext({ connectionParams = {} }) {
   if(!accessToken) return {}
 
   const claims = decodeToken(accessToken);
-  return { user: claims.sub }
+  return { userId: claims.id }
 }
 
 // graphql schemas

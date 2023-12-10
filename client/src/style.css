@@ -5,3 +5,8 @@ html {
 .navbar {
   background-color: #d4eafc;
 }
+
+.username {
+  text-transform: capitalize;
+  font-weight: bold;
+}

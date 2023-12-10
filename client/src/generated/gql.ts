@@ -13,9 +13,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query MessagesQuery {\n    messages {\n      id\n      user\n      text\n    }\n  }\n": types.MessagesQueryDocument,
-    "\n  mutation AddMessageMutation($text: String!) {\n    message: addMessage(text: $text) {\n      id\n      user\n      text\n    }\n  }\n": types.AddMessageMutationDocument,
-    "\n  subscription MessageAddedSubscription {\n    # alias for proper object structure\n    message: messageAdded {\n      id,\n      user,\n      text\n    }\n  }\n": types.MessageAddedSubscriptionDocument,
+    "\n  query MessagesQuery($chatId: ID!) {\n    messages(chatId: $chatId) {\n      id\n      userId,\n      text,\n      chatId,\n    }\n  }\n": types.MessagesQueryDocument,
+    "\n  query UsersQuery {\n    users {\n      id\n      username\n    }\n  }\n": types.UsersQueryDocument,
+    "\n  mutation AddMessageMutation($text: String!, $chatId: ID!) {\n    message: addMessage(text: $text, chatId: $chatId) {\n      id\n      userId,\n      text,\n      chatId\n    }\n  }\n": types.AddMessageMutationDocument,
+    "\n  subscription MessageAddedSubscription($chatId: String!) {\n    # alias for proper object structure\n    message: messageAdded(chatId: $chatId) {\n      id,\n      userId,\n      text,\n      chatId\n    }\n  }\n": types.MessageAddedSubscriptionDocument,
 };
 
 /**
@@ -35,15 +36,19 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query MessagesQuery {\n    messages {\n      id\n      user\n      text\n    }\n  }\n"): (typeof documents)["\n  query MessagesQuery {\n    messages {\n      id\n      user\n      text\n    }\n  }\n"];
+export function graphql(source: "\n  query MessagesQuery($chatId: ID!) {\n    messages(chatId: $chatId) {\n      id\n      userId,\n      text,\n      chatId,\n    }\n  }\n"): (typeof documents)["\n  query MessagesQuery($chatId: ID!) {\n    messages(chatId: $chatId) {\n      id\n      userId,\n      text,\n      chatId,\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation AddMessageMutation($text: String!) {\n    message: addMessage(text: $text) {\n      id\n      user\n      text\n    }\n  }\n"): (typeof documents)["\n  mutation AddMessageMutation($text: String!) {\n    message: addMessage(text: $text) {\n      id\n      user\n      text\n    }\n  }\n"];
+export function graphql(source: "\n  query UsersQuery {\n    users {\n      id\n      username\n    }\n  }\n"): (typeof documents)["\n  query UsersQuery {\n    users {\n      id\n      username\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  subscription MessageAddedSubscription {\n    # alias for proper object structure\n    message: messageAdded {\n      id,\n      user,\n      text\n    }\n  }\n"): (typeof documents)["\n  subscription MessageAddedSubscription {\n    # alias for proper object structure\n    message: messageAdded {\n      id,\n      user,\n      text\n    }\n  }\n"];
+export function graphql(source: "\n  mutation AddMessageMutation($text: String!, $chatId: ID!) {\n    message: addMessage(text: $text, chatId: $chatId) {\n      id\n      userId,\n      text,\n      chatId\n    }\n  }\n"): (typeof documents)["\n  mutation AddMessageMutation($text: String!, $chatId: ID!) {\n    message: addMessage(text: $text, chatId: $chatId) {\n      id\n      userId,\n      text,\n      chatId\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  subscription MessageAddedSubscription($chatId: String!) {\n    # alias for proper object structure\n    message: messageAdded(chatId: $chatId) {\n      id,\n      userId,\n      text,\n      chatId\n    }\n  }\n"): (typeof documents)["\n  subscription MessageAddedSubscription($chatId: String!) {\n    # alias for proper object structure\n    message: messageAdded(chatId: $chatId) {\n      id,\n      userId,\n      text,\n      chatId\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

@@ -1,19 +1,21 @@
 import { FieldInputProps, FormikProps } from "formik";
+import { User } from "../../generated/graphql";
 
 export interface Message {
-    user: string;
+    userId: string;
     id: string;
     text: string;
+    chatId: string;
 }
 
 export interface MessageListProps {
     messages: Message[];
-    user: string;
+    user: User;
+    receiver: User;
 }
 
-export interface MessageRowProps {
+export interface MessageRowProps extends Omit<MessageListProps, 'messages'> {
     message: Message;
-    user: string;
 }
 
 export interface MessageInputProps {
@@ -21,11 +23,11 @@ export interface MessageInputProps {
 }
 
 export interface ChatProps {
-    user: string;
+    user: User;
 }
 
 export interface LoginFormProps {
-    onLogin: (user: string) => void;   
+    onLogin: (user: User) => void;   
 }
 
 export interface LoginFormValues {
@@ -42,6 +44,11 @@ export interface LoginFieldProps {
 }
 
 export interface NavBarProps {
-    user: string;
+    user: User;
     onLogout: () => void;
+}
+
+export interface UserListProps {
+    onUserSelect: (user: User) => void;
+    selectedUserId: string;
 }

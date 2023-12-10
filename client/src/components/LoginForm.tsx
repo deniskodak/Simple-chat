@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { auth } from '../lib/auth';
+import { auth, getUser } from '../lib/auth';
 import { LoginFields, LoginFormProps } from '../lib/types';
 import { Formik, Form, Field, FormikState } from 'formik';
 import * as Yup from 'yup';
@@ -57,7 +57,8 @@ function LoginForm({ onLogin }: LoginFormProps) {
   const handleSubmit = async ({ username, password }: LoginFields): Promise<void> => {
     setError('');
     try{ 
-      const user: string = await auth(username, password, signUpMode);
+      await auth(username, password, signUpMode);
+      const user = getUser();
       onLogin(user);
     } catch(error) {
       setError(parseError(error.message));

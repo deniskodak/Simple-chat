@@ -2,21 +2,22 @@
 Represents all available queries
 """
 type Query {
-  messages: [Message!]
+  messages(chatId: ID!): [Message!]
+  users: [User!]
 }
 
 """
 Represents all available mutations
 """
 type Mutation {
-  addMessage(text: String!): Message
+  addMessage(text: String!, chatId: ID!): Message
 }
 
 """
 Represents all available subscriptions
 """
 type Subscription {
-  messageAdded: Message
+  messageAdded(chatId: String!): Message
 }
 
 """
@@ -24,6 +25,12 @@ Represents Message fields
 """
 type Message {
   id: ID!
-  user: String!
+  userId: ID!
   text: String!
+  chatId: ID! 
+}
+
+type User {
+  username: String!
+  id: ID!
 }
